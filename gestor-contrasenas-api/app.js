@@ -8,7 +8,8 @@ connectDB();
 
 app.use(express.json());
 
-app.use('/gestor', require('./routes/user.routes'));
+app.use('/gestor/users', require('./routes/user.routes'));
+app.use('/gestor/passwords', require('./routes/password.routes'));
 
 
 app.listen(PORT, () => {
