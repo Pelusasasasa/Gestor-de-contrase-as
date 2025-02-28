@@ -1,36 +1,20 @@
-import { useEffect, useState } from 'react';
-import { useAuthStore } from '../../hooks'
-import Swal from 'sweetalert2';
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
 
-  const { 
-     errorMessage,
-     startLogin
-    } = useAuthStore();
-
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    startLogin(userName, password)
-  }
-
-  useEffect(() => {
+    const [userName, setUserName] = useState("");
+      const [password, setPassword] = useState("");
     
-    if(errorMessage !== undefined){
-      Swal.fire('Error en la autenticacion', `${errorMessage}`, 'error')
-    }
-
-  }, [errorMessage])
-  
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        // startRegister(userName, password)
+      }
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100'>
       <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-md'>
-        <h2 className='text-2xl font-bold mb-6 text-center text-gray-800'>Iniciar Sesion</h2>
+        <h2 className='text-2xl font-bold mb-6 text-center text-gray-800'>Crear Usuario</h2>
         <form onSubmit={handleSubmit}>
           <div className='mb-4'>
             <label htmlFor="username" className='block text-sm font-medium text-gray-700'>Usuario</label>
@@ -60,13 +44,13 @@ export const LoginPage = () => {
             type='submit'
             className='w-full bg-blue-600 text-white py-2 px-4 rounded-mb hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer'
           >
-            Iniciar Sesion
+            Crear Usuario
             </button>
 
             <p className='mt-4 text-center text-sm text-gray-600'>
-              No tienes una cuenta?{" "}
-              <Link to='/auth/register' className='font-medium Text-blue-600 hover:text-blue-500'>
-                Crea una aqui
+              Ya tienes una cuenta?{" "}
+              <Link to='/login' className='font-medium Text-blue-600 hover:text-blue-500'>
+                Iniciar Sesion
               </Link>
               
 
