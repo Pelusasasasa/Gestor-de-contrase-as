@@ -11,9 +11,18 @@ export const passwordsSlice = createSlice({
         onSaving: (state) => {
             state.passwordsIsSaving = true
         },
+        setPasswords: (state, {payload}) => {
+            state.passwords = payload;
+            state.passwordsIsSaving = false
+        },
+        addPassword: (state, {payload}) => {
+            state.activePassword = payload;
+            state.passwords.push( payload );
+            state.passwordsIsSaving = false;
+        }
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { onSaving } = passwordsSlice.actions;
+export const { addPassword, setPasswords, onSaving } = passwordsSlice.actions;
