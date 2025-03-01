@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAuthStore } from '../hooks'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { LoginPage } from '../auth/pages/LoginPage'
@@ -6,8 +6,19 @@ import { GestorApp } from '../gestor/pages/GestorApp'
 import { RegisterPage } from '../auth/pages/RegisterPage'
 
 export const AppRouter = () => {
-    const { status } = useAuthStore()
-    console.log(status)
+    const { status,  checkAuthToken } = useAuthStore()
+    
+    useEffect(() => {
+      checkAuthToken();
+    }, [])
+
+    if( status === 'checking'){
+        return(
+            <h3>Cargandoooo....</h3>
+        )
+    }
+    
+
   return (
     <Routes>
         {

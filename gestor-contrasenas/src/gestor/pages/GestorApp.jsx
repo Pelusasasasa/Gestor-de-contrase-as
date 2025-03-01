@@ -1,3 +1,4 @@
+import { useAuthStore } from "../../hooks";
 
 const passwords = [
     {
@@ -21,11 +22,14 @@ const passwords = [
   ];
 
 export const GestorApp = () => {
+
+  const { user } = useAuthStore();
+
   return (
     <div className='min-h-screen bg-gray-100 p-6'>
 
       <div className='text-center mb-8'>
-        <h1 className='text-3xl font-Bold text-gray-800'>Hola, Agustin</h1>
+        <h1 className='text-3xl font-Bold text-gray-800'>Hola, {user.username}</h1>
         <p className='text-gray-600'>Aqui estan tus contraseñas guardadas</p>
       </div>
 
@@ -39,7 +43,7 @@ export const GestorApp = () => {
       {/* Lista de contraseña */}
       <div className='max-w-2xl mx-auto'>
         {passwords.map((item) => (
-          <div key={item.title} className="bh-white p-6 rounded-lg shadow-md mb-4 hover:shadow-lg transition-shadow">
+          <div key={item.title  } className="bh-white p-6 rounded-lg shadow-md mb-4 hover:shadow-lg transition-shadow">
             <h2 className="text-xl font-semibold text-gray-800 mb-2">{item.title}</h2>
             <p className="text-gray-600 mb-1">
               <span className="font-medium">Usuario: </span>

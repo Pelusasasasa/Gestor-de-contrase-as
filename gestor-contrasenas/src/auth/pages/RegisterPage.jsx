@@ -1,15 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { useAuthStore } from '../../hooks/useAuthStore';
+import Swal from 'sweetalert2';
 
 export const RegisterPage = () => {
+
+  const { startRegister, errorMessage } = useAuthStore();
 
     const [userName, setUserName] = useState("");
       const [password, setPassword] = useState("");
     
       const handleSubmit = (e) => {
         e.preventDefault();
-        // startRegister(userName, password)
-      }
+        startRegister(userName, password)
+      };
+
+      useEffect(() => {
+        if(errorMessage !== undefined){
+          Swal.fire('Error en la creacion', `${errorMessage}` ,'error')
+        }
+      }, [errorMessage])
+      
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100'>

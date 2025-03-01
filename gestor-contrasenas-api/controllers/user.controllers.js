@@ -16,7 +16,7 @@ userCTRL.crearUsuario = async(req, res) => {
         if( user ){
             return res.status(400).json({
                 ok: false,
-                message: 'Ya existe usario con ese nombre'
+                msg: 'Ya existe usario con ese nombre'
             });
         };
 
@@ -34,7 +34,53 @@ userCTRL.crearUsuario = async(req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({msg: 'Hable con el administrador'});
+        res.status(500).json({
+            msg: 'Hable con el administrador',
+            ok: false
+        });
+    }
+
+};
+
+userCTRL.deteleUser = async(req, res) => {
+
+    try {
+        
+        const uid = req.uid;
+        console.log(uid)
+        console.log(req.password)
+        const user = await User.findOne({username: req.body.username});
+
+        if(!user){
+            return res.status(400).json({
+                msg: 'Usuario no existe',
+                ok: false
+            });
+        };
+
+        const isMatch = await user.comparePassword(req.body.password);
+
+
+        if(!isMatch){
+            res.status(401).json({
+                ok: false,
+                msg: 'Contraseña Incorrecta'
+            })
+        }
+
+        const deleteUser = await User.findOneAndDelete({_id: uid});
+
+        res.status(200).json({
+            ok: true,
+            user: deleteUser
+        });
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
     }
 
 };
@@ -121,47 +167,22 @@ userCTRL.updateUser = async(req, res) => {
 
 };
 
-userCTRL.deteleUser = async(req, res) => {
+userCTRL.renew = async(req, res) => {
+    const uid = req.uid;
+    const password = req.password;
+    console.log(uid)
 
-    try {
-        
-        const uid = req.uid;
-        console.log(uid)
-        console.log(req.password)
-        const user = await User.findOne({username: req.body.username});
+    let {username} = await User.findOne({_id: uid});
 
-        if(!user){
-            return res.status(400).json({
-                msg: 'Usuario no existe',
-                ok: false
-            });
-        };
+    const token = await generarJTW(uid, password);
 
-        const isMatch = await user.comparePassword(req.body.password);
-
-
-        if(!isMatch){
-            res.status(401).json({
-                ok: false,
-                msg: 'Contraseña Incorrecta'
-            })
+    res.json({
+        ok: true,
+        token,
+        user: {
+            username
         }
-
-        const deleteUser = await User.findOneAndDelete({_id: uid});
-
-        res.status(200).json({
-            ok: true,
-            user: deleteUser
-        });
-
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            ok: false,
-            msg: 'Hable con el administrador'
-        })
-    }
-
+    })
 };
 
 module.exports = userCTRL;
