@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrorMessage, onAddUser, onChecking, onLogin, onLogOut } from "../reducer/auth/authSlice";
 import gestorApi from "../api/gestorApi";
+import { resetPasswords } from "../reducer/passwords/passwordsSlice";
 
 
 export const useAuthStore = () => {
@@ -75,6 +76,14 @@ export const useAuthStore = () => {
             localStorage.clear();
             dispatch(onLogOut());
         }
+    };
+
+    const startLogOut = async () => {
+
+        dispatch(onLogOut());
+        dispatch(resetPasswords());
+        localStorage.clear();
+
     }
 
     return {
@@ -86,7 +95,8 @@ export const useAuthStore = () => {
         //*Métodos
         checkAuthToken,
         startLogin,
-        startRegister
+        startRegister,
+        startLogOut
 
 
     }
