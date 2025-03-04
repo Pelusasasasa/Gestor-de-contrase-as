@@ -47,8 +47,9 @@ userCTRL.deteleUser = async(req, res) => {
     try {
         
         const uid = req.uid;
-        console.log(uid)
+        console.log('El uid es: ', uid)
         console.log(req.password)
+        console.log(req.body)
         const user = await User.findOne({username: req.body.username});
 
         if(!user){
@@ -57,17 +58,7 @@ userCTRL.deteleUser = async(req, res) => {
                 ok: false
             });
         };
-
-        const isMatch = await user.comparePassword(req.body.password);
-
-
-        if(!isMatch){
-            res.status(401).json({
-                ok: false,
-                msg: 'Contraseña Incorrecta'
-            })
-        }
-
+        
         const deleteUser = await User.findOneAndDelete({_id: uid});
 
         res.status(200).json({

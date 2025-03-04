@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrorMessage, onAddUser, onChecking, onLogin, onLogOut } from "../reducer/auth/authSlice";
+import { clearErrorMessage, onAddUser, onChecking, onDeleteUser, onLogin, onLogOut } from "../reducer/auth/authSlice";
 import gestorApi from "../api/gestorApi";
 import { resetPasswords } from "../reducer/passwords/passwordsSlice";
 
@@ -84,6 +84,16 @@ export const useAuthStore = () => {
         dispatch(resetPasswords());
         localStorage.clear();
 
+    };
+
+    const startDeleteUser = async(username) => {
+        gestorApi.post('users/delete', {username});
+
+        await dispatch(onDeleteUser())
+        //TODO ELIMINAR LOS PASSWORDs POR EL USUARIO
+        
+        // dispatch(onDeletePasswordForUser());
+        localStorage.clear();
     }
 
     return {
@@ -96,7 +106,8 @@ export const useAuthStore = () => {
         checkAuthToken,
         startLogin,
         startRegister,
-        startLogOut
+        startLogOut,
+        startDeleteUser
 
 
     }

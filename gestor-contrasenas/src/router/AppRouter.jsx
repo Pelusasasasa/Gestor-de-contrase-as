@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { LoginPage } from '../auth/pages/LoginPage'
 import { GestorApp } from '../gestor/pages/GestorApp'
 import { RegisterPage } from '../auth/pages/RegisterPage'
+import Configuration from '../gestor/pages/Configuration'
 
 export const AppRouter = () => {
     const { status,  checkAuthToken } = useAuthStore()
@@ -33,7 +34,8 @@ export const AppRouter = () => {
             )
             : (
                 <>
-                <Route path="/*" element={ <GestorApp />} />
+                <Route path="/configuration" element={ <Configuration />} />
+                <Route path="/" element={ <GestorApp />} />
                 <Route path="/*" element={ <Navigate to='/' /> } />
                 </>
             )

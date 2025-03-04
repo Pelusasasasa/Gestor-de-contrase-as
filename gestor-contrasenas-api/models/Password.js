@@ -26,23 +26,23 @@ const Password = new Schema({
 });
 
 
-Password.pre('save', function(next){
+// Password.pre('save', function(next){
 
-    if(this.isModified('password')){
-        this.password = bcrypt.hashSync(this.password, 10);
-    };
-    next();
-});
+//     if(this.isModified('password')){
+//         this.password = bcrypt.hashSync(this.password, 10);
+//     };
+//     next();
+// });
 
-Password.pre('findOneAndUpdate', function(next){
-    const update = this.getUpdate();
+// Password.pre('findOneAndUpdate', function(next){
+//     const update = this.getUpdate();
 
-    if(update.password){
-        update.password = bcrypt.hashSync(update.password, 10);
-    };
+//     if(update.password){
+//         update.password = bcrypt.hashSync(update.password, 10);
+//     };
 
-    next();
-})
+//     next();
+// })
 
 
 module.exports = model('Password', Password);
