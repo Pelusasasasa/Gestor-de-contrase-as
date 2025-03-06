@@ -1,5 +1,6 @@
 const passwordCTRL = {};
 
+const { default: mongoose } = require('mongoose');
 const Password = require('../models/Password');
 
 passwordCTRL.postOne = async(req, res) => {
@@ -155,6 +156,46 @@ passwordCTRL.deleteOne = async(req, res) => {
             msg: 'Hable con el administrador',
             ok: false
         })
+    }
+
+};
+
+passwordCTRL.deleteForUserId = async(req, res) => {
+
+    
+    const uid = req.uid;
+
+    try {
+
+        console.log("ACA Estamos")
+        //Convetir el uid en un Object Id
+        const userId = new mongoose.Types.ObjectId(uid);
+
+        const resultado = await Password.deleteMany({
+            user: userId
+        });
+
+        //Verificar que se eliminaro
+        if(resultado.deletedCount === 0){
+            return res.status(400).json({
+                ok: false,
+                msg: 'No se pudieron borrar los passwords'
+            })
+        };
+
+        res.status(200).json({
+            ok: true,
+            msg:'Se eliminaros las contraseñas',
+            resultado
+        });
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+        
     }
 
 };

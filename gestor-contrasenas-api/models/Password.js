@@ -4,15 +4,18 @@ const bcrypt = require('bcrypt');
 const Password = new Schema({
     title:{ 
         type: String,
-        default: ''
+        default: '',
+        trim: true
     },
     username:{
         type: String,
         required: true,
+        trim: true
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
     user: {
         type: Schema.Types.ObjectId,

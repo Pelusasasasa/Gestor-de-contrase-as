@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuthStore } from "../../hooks";
+import { useAuthStore, usePasswordsStore } from "../../hooks";
 import { useForm } from "../../hooks/Useform";
 import Swal from "sweetalert2";
 
@@ -11,13 +11,16 @@ const initialState = {
 const Configuration = () => {
 
     const { user, startDeleteUser } = useAuthStore();
+    const { startDeletePassword } =usePasswordsStore();
 
     const { onInputChange } = useForm(initialState);
 
     const handleDelete = async() => {
         const {isConfirmed} = await Swal.fire('Seguro que quiere eliminar la cuenta', 'Se eliminaran todas las contraseñas', 'info');
         if(isConfirmed){
+            startDeletePassword();
             startDeleteUser(user.username);
+            
         }
     };
 

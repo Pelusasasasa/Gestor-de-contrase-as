@@ -31,6 +31,12 @@ export const usePasswordsStore = () => {
         dispatch( addPassword(data.newPassword) );
     };
 
+    const startDeletePassword = async() => {
+        const { data } = await gestorApi.delete('passwords/userId');
+
+        console.log(data);
+    };
+
     return {
         //*Propiedades
         activePassword,
@@ -39,6 +45,7 @@ export const usePasswordsStore = () => {
 
         //*Metodos
         startGetPasswords,
-        startCreatePasswords
+        startCreatePasswords,
+        startDeletePassword
     }
 }

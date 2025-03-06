@@ -15,7 +15,7 @@ export const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    startLogin(userName, password)
+    startLogin(userName, password);
   }
 
   useEffect(() => {
