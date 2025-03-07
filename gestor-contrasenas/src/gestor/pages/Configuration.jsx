@@ -4,25 +4,28 @@ import { useForm } from "../../hooks/Useform";
 import Swal from "sweetalert2";
 
 const initialState = {
-    username: '',
-}
-
+  username: '',
+};
 
 const Configuration = () => {
 
-    const { user, startDeleteUser } = useAuthStore();
-    const { startDeletePassword } =usePasswordsStore();
+  const { user, startUpdateUser, startDeleteUser } = useAuthStore();
+  const { startDeletePassword } = usePasswordsStore();
 
-    const { onInputChange } = useForm(initialState);
+  const { onInputChange, username, formState } = useForm(initialState);
 
-    const handleDelete = async() => {
-        const {isConfirmed} = await Swal.fire('Seguro que quiere eliminar la cuenta', 'Se eliminaran todas las contraseñas', 'info');
-        if(isConfirmed){
-            startDeletePassword();
-            startDeleteUser(user.username);
-            
-        }
-    };
+  const handleUser = async () => {
+    startUpdateUser(formState)
+  }
+
+  const handleDelete = async () => {
+    const { isConfirmed } = await Swal.fire('Seguro que quiere eliminar la cuenta', 'Se eliminaran todas las contraseñas', 'info');
+    if (isConfirmed) {
+      startDeletePassword();
+      startDeleteUser(user.username);
+
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -38,12 +41,12 @@ const Configuration = () => {
             <input
               type="text"
               name="username"
-              onChangle={onInputChange}
-              value={user.username}
+              onChange={onInputChange}
+              value={username}
               placeholder="Nuevo nombre de usuario"
               className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button onClick={handleUser} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
               Guardar
             </button>
           </div>

@@ -5,7 +5,7 @@ export const passwordsSlice = createSlice({
     initialState: {
         activePassword: {},
         passwords: [],
-        passwordsIsSaving: false
+        passwordsIsSaving: true
     },
     reducers: {
         onSaving: (state) => {
@@ -24,10 +24,30 @@ export const passwordsSlice = createSlice({
             state.passwords = [];
             state.activePassword = {};
             state.passwordsIsSaving = false
+        },
+        onDeleteAll: (state) => {
+            state.passwords = [];
+            state.passwordsIsSaving = false,
+                state.activePassword = {};
+        },
+        onDeletePassword: (state, { payload }) => {
+            state.passwords = state.passwords.filter(elem => elem._id !== payload);
+            state.passwordsIsSaving = false
+        },
+        onPutPassowrd: (state, { payload }) => {
+            state.passwords.map(elem => {
+                if (elem._id === payload._id) {
+                    elem = payload;
+                }
+
+                return elem;
+            })
+
+            state.passwordsIsSaving = false;
         }
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { addPassword, setPasswords, onSaving, resetPasswords } = passwordsSlice.actions;
+export const { addPassword, setPasswords, onDeleteAll, onDeletePassword, onPutPassowrd, onSaving, resetPasswords } = passwordsSlice.actions;

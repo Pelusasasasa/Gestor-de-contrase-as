@@ -19,7 +19,7 @@ export const GestorApp = () => {
   }, []);
 
   useEffect(() => {
-    setPasswordFilter(passwords)
+    setPasswordFilter(passwords);
   }, [passwords])
 
   const handleLogOut = () => {
@@ -36,7 +36,8 @@ export const GestorApp = () => {
 
 
   const handlePassword = (e) => {
-    setPasswordFilter( passwords.filter(elem => (elem.title.toUpperCase().includes(e.target.value.toUpperCase())) || (elem.username.toUpperCase().includes(e.target.value.toUpperCase()))))
+    setPasswordFilter(passwords.filter(elem => (elem.title.toUpperCase().includes(e.target.value.toUpperCase())) || (elem.username.toUpperCase().includes(e.target.value.toUpperCase()))))
+    console.log(passwords);
   };
 
   return (
@@ -73,7 +74,7 @@ export const GestorApp = () => {
           </svg>
         </button>
       </div>
-      
+
       <div className='text-center mb-8'>
         <h1 className='text-3xl font-Bold text-gray-800'>Hola, {user.username}</h1>
         <p className='text-gray-600'>Aqui estan tus contraseñas guardadas</p>

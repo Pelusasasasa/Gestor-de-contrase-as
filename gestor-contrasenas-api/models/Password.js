@@ -2,12 +2,12 @@ const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const Password = new Schema({
-    title:{ 
+    title: {
         type: String,
         default: '',
         trim: true
     },
-    username:{
+    username: {
         type: String,
         required: true,
         trim: true
@@ -22,9 +22,10 @@ const Password = new Schema({
         ref: 'User',
         required: true,
     },
-    desc: {
+    descripcion: {
         type: String,
-        default: ''
+        default: '',
+        trim: true
     }
 });
 
