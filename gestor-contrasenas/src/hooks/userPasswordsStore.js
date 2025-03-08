@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import gestorApi from "../api/gestorApi";
-import { addPassword, onDeleteAll, onDeletePassword, onPutPassowrd, onSaving, setPasswords } from "../reducer/passwords/passwordsSlice";
+import { addPassword, emptyActive, onDeleteAll, onDeletePassword, onPutPassowrd, onSaving, setActive, setPasswords } from "../reducer/passwords/passwordsSlice";
 
 import CryptoJS from "crypto-js";
 import { getEnvVariables } from "../helpers/getEnvVariables";
@@ -11,6 +11,12 @@ export const usePasswordsStore = () => {
     const dispatch = useDispatch();
 
     const { passwords, activePassword, passwordsIsSaving } = useSelector(state => state.password);
+
+    const startActivePassword = async (id) => {
+        const password = passwords.find(elem => elem._id === id);
+
+        dispatch(setActive(password));
+    };
 
     const startGetPasswords = async () => {
 
@@ -31,15 +37,17 @@ export const usePasswordsStore = () => {
         dispatch(addPassword(data.newPassword));
     };
 
+    const startEmptyPassword = async () => {
+        dispatch(emptyActive());
+    }
+
     const startPutPassword = async (id, password) => {
         dispatch(onSaving());
 
-        const { data } = gestorApi.put(`passwords/${id}`, password);
+        const { data } = await gestorApi.put(`passwords/${id}`, password);
 
-        console.log(data);
-
-        dispatch(onPutPassowrd())
-    }
+        dispatch(onPutPassowrd(data.updatePassword));
+    };
 
     const startDeleteOnePassword = async (id) => {
         dispatch(onSaving());
@@ -61,6 +69,8 @@ export const usePasswordsStore = () => {
         dispatch(onSaving());
     };
 
+
+
     return {
         //*Propiedades
         activePassword,
@@ -68,7 +78,9 @@ export const usePasswordsStore = () => {
         passwordsIsSaving,
 
         //*Metodos
+        startActivePassword,
         startCreatePasswords,
+        startEmptyPassword,
         startGetPasswords,
         startDeletePasswords,
         startDeleteOnePassword,

@@ -37,7 +37,6 @@ export const GestorApp = () => {
 
   const handlePassword = (e) => {
     setPasswordFilter(passwords.filter(elem => (elem.title.toUpperCase().includes(e.target.value.toUpperCase())) || (elem.username.toUpperCase().includes(e.target.value.toUpperCase()))))
-    console.log(passwords);
   };
 
   return (
@@ -100,7 +99,7 @@ export const GestorApp = () => {
       {/* Lista de contraseña */}
       <div className='max-w-2xl mx-auto'>
         {passwordFilter.map((item) => (
-          <PasswordItem key={item._id} {...item} />
+          <PasswordItem key={item._id} {...item} abrirVentana={setOpenModal} />
         ))}
       </div>
 

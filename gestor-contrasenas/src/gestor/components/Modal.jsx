@@ -1,16 +1,20 @@
 import { useForm } from '../../hooks/Useform';
 import { usePasswordsStore } from '../../hooks';
+import { generarContrasenaRandom } from '../../helpers';
+import { useEffect } from 'react';
+import { desencriptar } from '../../helpers/desencriptarPassword';
 
-const initialForm = {
-    username: '',
-    password: '',
-    title: '',
-    desc: ''
-}
+// const initialForm = {
+//     username: '',
+//     password: '',
+//     title: '',
+//     desc: ''
+// }
 
 export const Modal = ({ closeModal }) => {
-    const { startCreatePasswords } = usePasswordsStore()
-    const { title, username, password, descripcion, onInputChange, formState } = useForm(initialForm);
+    const { activePassword, startCreatePasswords, startEmptyPassword, startPutPassword } = usePasswordsStore();
+    const { title, username, password, descripcion, onInputChange, formState } = useForm(activePassword);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,6 +23,30 @@ export const Modal = ({ closeModal }) => {
 
         closeModal()
     };
+
+    const startRandom = () => {
+        const newPassword = generarContrasenaRandom();
+        onInputChange({ target: { name: 'password', value: newPassword } });
+    };
+
+    const cerrarModal = () => {
+        startEmptyPassword()
+        closeModal();
+    };
+
+    const handleputPassword = () => {
+        startPutPassword(formState._id, formState);
+
+        closeModal();
+    };
+
+    useEffect(() => {
+        if (activePassword.password) {
+            const passwordDesencriptada = desencriptar(activePassword.password);
+
+            onInputChange({ target: { name: 'password', value: passwordDesencriptada } });
+        }
+    }, [activePassword]);
 
     return (
         <div className='fixed inset-0 flex items-center justify-center bg-black/80 z-50'>
@@ -41,7 +69,10 @@ export const Modal = ({ closeModal }) => {
                     {/* Campo Password */}
                     <div className='mb-4'>
                         <label htmlFor="password" className='block text-sm font-medium text-gray-700'>Contraseña</label>
-                        <input onChange={onInputChange} name='password' type="password" value={password} id="password" className='mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none fcous:ring-2 focus:ring-blue-500 focus:border-blue-500' placeholder='********' />
+                        <div className='flex items-center gap-2'>
+                            <input onChange={onInputChange} name='password' type="text" value={password} id="password" className='mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none fcous:ring-2 focus:ring-blue-500 focus:border-blue-500' placeholder='********' />
+                            <button onClick={startRandom} type='button' className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500'>Generar</button>
+                        </div>
                     </div>
 
                     {/* Campo Descripcion */}
@@ -52,8 +83,9 @@ export const Modal = ({ closeModal }) => {
 
                     {/* Botones */}
                     <div className='flex justify-end gap-4'>
-                        <button type='button' onClick={closeModal} className='cursor-pointer px-4 py-2 text-gray-600 hover:text-gray-800 focus:outline-none'>Cancelar</button>
-                        <button type='submit' className='cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'>Guardar</button>
+                        <button type='button' onClick={cerrarModal} className='cursor-pointer px-4 py-2 text-gray-600 hover:text-gray-800 focus:outline-none'>Cancelar</button>
+                        {!activePassword._id && <button type='submit' className='cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'>Guardar</button>}
+                        {activePassword._id && <button type='button' onClick={handleputPassword} className='cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'>Modificar</button>}
                     </div>
                 </form>
             </div>

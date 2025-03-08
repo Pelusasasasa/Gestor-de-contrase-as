@@ -43,7 +43,7 @@ export const RegisterPage = () => {
           <div className='mb-4'>
             <label htmlFor="username" className='block text-sm font-medium text-gray-700'>Email</label>
             <input
-              type='emial'
+              type='email'
               name='email'
               id='email'
               value={email}
