@@ -12,6 +12,10 @@ export const PasswordItem = (item) => {
 
   const [mostrar, setMostrar] = useState(false);
 
+  const copiedPassword = () => {
+    navigator.clipboard.writeText(desencriptar(item.password))
+  }
+
   const handleMostrar = () => {
     setMostrar(!mostrar);
   };
@@ -70,21 +74,38 @@ export const PasswordItem = (item) => {
         }
       </p>
       <div className="flex items-center justify-between">
-        <p className="text-gray-600">
+        <p className="text-gray-600 flex gap-2">
           <span className="font-medium">Contraseña: </span>
           {
             mostrar ? desencriptar(item.password) : '**********'
           }
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              onClick={copiedPassword}
+              className="w-5 h-5 text-gray-500 hover:text-blue-500 cursor-pointer"
+            >
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </span>
         </p>
+
         <button onClick={handleMostrar} className="cursor-pointer text-blue-600 hover:text-blue-500 focus:outline-none">
           {mostrar ? 'Ocultar' : 'Mostrar'}
         </button>
       </div>
 
-      <p className="text-gray-600 mb-1">
+      {item.descripcion && <p className="text-gray-600 mb-1">
         <span className="font-medium">Descripcion: </span>
         {item.descripcion}
-      </p>
+      </p>}
     </div>
   )
 };
