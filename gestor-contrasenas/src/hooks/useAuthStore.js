@@ -15,6 +15,7 @@ export const useAuthStore = () => {
         try {
 
             const { data } = await gestorApi.post('users/login', { username, password });
+            console.log("La data es: ");
             console.log(data);
             const { user, token } = data;
 
