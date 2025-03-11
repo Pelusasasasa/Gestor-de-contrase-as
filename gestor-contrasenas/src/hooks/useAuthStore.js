@@ -14,7 +14,8 @@ export const useAuthStore = () => {
 
         try {
 
-            const { data } = await gestorApi.post('users/login', { username, password })
+            const { data } = await gestorApi.post('users/login', { username, password });
+            console.log(data);
             const { user, token } = data;
 
             //Ponemos el token en el localStorage para futuras peticiones a la api
