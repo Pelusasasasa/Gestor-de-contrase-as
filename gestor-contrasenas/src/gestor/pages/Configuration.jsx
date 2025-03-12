@@ -9,22 +9,29 @@ const initialState = {
 
 const Configuration = () => {
 
-  const { user, startUpdateUser, startDeleteUser } = useAuthStore();
-  const { startDeletePassword } = usePasswordsStore();
 
-  const { onInputChange, username, formState } = useForm(initialState);
+
+  const { user, startUpdateUserName, startUpdatePassword, startDeleteUser } = useAuthStore();
+  const { startDeletePasswords } = usePasswordsStore();
+
+  const { onInputChange, username, password, newPassword, confirmPassword, formState } = useForm(initialState);
 
   const handleUser = async () => {
-    startUpdateUser(formState)
-  }
+    startUpdateUserName(formState)
+  };
 
   const handleDelete = async () => {
     const { isConfirmed } = await Swal.fire('Seguro que quiere eliminar la cuenta', 'Se eliminaran todas las contraseñas', 'info');
     if (isConfirmed) {
-      startDeletePassword();
+      startDeletePasswords();
       startDeleteUser(user.username);
 
     }
+  };
+
+  const handleUpadtePassWord = async () => {
+
+    startUpdatePassword(password, newPassword)
   };
 
   return (
@@ -62,18 +69,27 @@ const Configuration = () => {
               type="password"
               placeholder="Contraseña actual"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={password}
+              onChange={onInputChange}
+              name="password"
             />
             <input
               type="password"
               placeholder="Nueva contraseña"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={newPassword}
+              onChange={onInputChange}
+              name="newPassword"
             />
             <input
               type="password"
               placeholder="Confirmar nueva contraseña"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={confirmPassword}
+              onChange={onInputChange}
+              name="confimPassword"
             />
-            <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button onClick={handleUpadtePassWord} className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
               Cambiar contraseña
             </button>
           </div>
