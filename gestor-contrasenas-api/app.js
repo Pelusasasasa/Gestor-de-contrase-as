@@ -18,17 +18,16 @@ app.use(cors());
 //Middleware para parsear el JSON
 app.use(express.json());
 
-//Servimos los archivos Estaticos de React
-app.use( express.static('public'));
-
 
 //Rutas de la API
 app.use('/gestor/users', require('./routes/user.routes'));
 app.use('/gestor/passwords', require('./routes/password.routes'));
 
-//Servir la aplicacion de React para las rutas que no sean de la api
+//Servimos los archivos Estaticos(React)
+app.use(express.static('public'));
+
 app.use('*', (req, res) => {
-    res.sendFile( path.join(__dirname, 'public/index.html'));
+    res.sendFile(path.join(__dirname, 'public/index.html'));
 })
 
 
