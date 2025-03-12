@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+//Funcion que logra conectar la base de datos de mongo db, si tenemos una conexion en las variables de entorno utiliza esa conexion,
+//  sino lo hace de forma local en nuestro mongo db para desarrolo
 const connectDB = async () => {
     try {
 

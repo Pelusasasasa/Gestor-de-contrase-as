@@ -1,5 +1,13 @@
 const { Schema, model } = require('mongoose');
-const bcrypt = require('bcrypt');
+
+// Modelo: Password
+// Descripcion: Representa las contraseñas del Usuario
+// Campos: 
+//     -Title: Un titulo para saber a que cuenta pertenece(texto)
+//     -username: Nombre de usuario de la cuenta para ingresar(texto)
+//     -password: Contraseña de la cuenta(texto)
+//     -user: Usuario al que pertenece esta contraseña(User)
+//     -descripcion: breve descripcion opcional para ayudar al usuario a identificar la cuenta
 
 const Password = new Schema({
     title: {
@@ -28,25 +36,5 @@ const Password = new Schema({
         trim: true
     }
 });
-
-
-// Password.pre('save', function(next){
-
-//     if(this.isModified('password')){
-//         this.password = bcrypt.hashSync(this.password, 10);
-//     };
-//     next();
-// });
-
-// Password.pre('findOneAndUpdate', function(next){
-//     const update = this.getUpdate();
-
-//     if(update.password){
-//         update.password = bcrypt.hashSync(update.password, 10);
-//     };
-
-//     next();
-// })
-
 
 module.exports = model('Password', Password);

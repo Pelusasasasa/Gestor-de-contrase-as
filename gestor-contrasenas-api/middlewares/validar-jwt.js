@@ -1,5 +1,7 @@
 const JWT = process.env.JWT
 
+//Funcion que valida el JSon Web Token de un usuario si es que esta logueado para luego entrar a las rutas de la api de las contraseñas.
+//En el caso de que el JSONWebToken haya expirado retorna un error, sino deja continuar a las llamadas de la api
 const validarJWT = (req, res, next) => {
     const jwt = require('jsonwebtoken');
 
@@ -21,7 +23,8 @@ const validarJWT = (req, res, next) => {
         )
         req.uid = uid;
         req.password = password;
-
+        
+        next();
 
     } catch (error) {
         console.log(error);
@@ -30,7 +33,7 @@ const validarJWT = (req, res, next) => {
             ok: false
         })
     };
-    next();
+    
 };
 
 module.exports = {

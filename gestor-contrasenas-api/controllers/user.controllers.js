@@ -51,13 +51,22 @@ userCTRL.crearUsuario = async (req, res) => {
 
 };
 
+/**
+ * Ruta: POST /gestor/users/delete
+ * Descripcion: Elimina el Usuario si es que esta legueado, osea el JWT No esta Expirado
+ * Parametros de entrada: 
+ *  -username: Nombre del usuario
+ * Respuesta: 
+ *  -200: Usuario Eliminado
+ *  -400: No existe el usuario
+ *  -500: Error del servidor 
+ */
 userCTRL.deteleUser = async (req, res) => {
 
     try {
 
         const uid = req.uid;
         console.log('El uid es: ', uid)
-        console.log(req.password)
         console.log(req.body)
         const user = await User.findOne({ username: req.body.username });
 
@@ -85,6 +94,19 @@ userCTRL.deteleUser = async (req, res) => {
 
 };
 
+
+/**
+ * Ruta: POST /gestor/users/login
+ * Descripcion: Permite al Usuario Logearse
+ * Parametros de entrada: 
+ *  -username: Nombre de Usuario
+ *  -password: Contraseña del Usuario
+ * Respuesta: 
+ *  -200: Inicio de sesion Exitoso
+ *  -400: No existe el usuario
+ *  -400: Contraseña Incorrecta
+ *  -500: Error del servidor 
+ */
 userCTRL.login = async (req, res) => {
 
     const { username, password } = req.body;
