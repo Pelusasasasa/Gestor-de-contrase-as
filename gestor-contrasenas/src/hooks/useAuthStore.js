@@ -108,8 +108,8 @@ export const useAuthStore = () => {
 
     const startUpdatePassword = async (password, newPassword) => {
         try {
-            console.log(password, newPassword);
-            const { data } = await gestorApi.put('users/password', newPassword);
+
+            const { data } = await gestorApi.put('users/password', { password, newPassword });
             console.log(data);
 
             // dispatch(onPutUser(data.user));

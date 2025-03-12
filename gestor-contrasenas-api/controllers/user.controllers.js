@@ -94,7 +94,6 @@ userCTRL.deteleUser = async (req, res) => {
 
 };
 
-
 /**
  * Ruta: POST /gestor/users/login
  * Descripcion: Permite al Usuario Logearse
@@ -211,5 +210,51 @@ userCTRL.renew = async (req, res) => {
         }
     })
 };
+/**
+ * Ruta: PUT /gestor/users/password
+ * Descripcion: Permite cambiar la contraseña del usuari
+ * Parametros de entrada:
+ *  -password: Contraseña Actual
+ *  -newPassword: Nueva Contraseña
+ * Respuesta:
+ *  -200: Se cambio la Contraseña
+ *  -400: Contraseña Incorrecta
+ *  -400: No existe JWT
+ *  -500: Error del servidor
+ */
+userCTRL.updatePassword = async (req, res) => {
+
+    const { password, newPassword } = req.body;
+    const uid = req.uid;
+
+    try {
+        const user = await User.findOne({ _id: uid });
+
+        const isMatch = await user.comparePassword(password);
+
+        if (!isMatch) return res.status(400).json({
+            ok: false,
+            msg: 'Contraseña Incorrecta'
+        });
+
+        user.password = newPassword;
+        await user.save();
+
+
+        res.status(200).json({
+            ok: true,
+            user: {
+                username: user.username
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
+
+}
 
 module.exports = userCTRL;

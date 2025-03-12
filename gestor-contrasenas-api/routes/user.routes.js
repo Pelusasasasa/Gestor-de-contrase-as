@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { crearUsuario, login, updateUser, deteleUser, renew } = require('../controllers/user.controllers');
+const { crearUsuario, login, updateUser, deteleUser, renew, updatePassword } = require('../controllers/user.controllers');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const router = Router();
 
@@ -13,7 +13,8 @@ router.route('/update')
     .put(validarJWT, updateUser)
 router.route('/delete')
     .post(validarJWT, deteleUser)
-
+router.route('/password')
+    .put(validarJWT, updatePassword)
 
 
 module.exports = router;
