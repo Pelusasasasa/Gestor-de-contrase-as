@@ -1,12 +1,19 @@
 const bcrypt = require('bcrypt');
-const { Schema, model } = require('mongoose');
+const { Schema, model} = require('mongoose');
+/**
+    * Modelo: User
+    * Descripcion: Representa un Usuario en la Base de Datos
+    * Campos:
+    *   -username: Nombre de Usuario(texto) Unico
+    *   -email: Email del Usuario(Texo) Unico
+    *   -password: Contraseña del Usuario(Texto) 
+    *   -plan: Tipo de Plan del Usuario(Texto)   
+    *   -paymentStatus: Estado del pago(Texto)
+    *   -paymentDate: Fecha en el que se realizo el pago(Fecha)
+    *   -nextPaymentDate: Fecha del proximo pago(Fecha)
+ */
 
-// Modelo: User
-// Descripcion: Representa un Usuario en la Base de Datos
-// Campos:
-//     -username: Nombre de Usuario(texto) Unico
-//     -email: Email del Usuario(Texo) Unico
-//     -password: Contraseña del Usuario(Texto)
+
 
 const User = new Schema({
     username: {
@@ -25,7 +32,16 @@ const User = new Schema({
         type: String,
         required: true,
         trim: true
-    }
+    },
+    currentPlan: {
+        type: Schema.Types.ObjectId,
+        ref: 'Plan'
+        
+    },
+    payment: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Payment'
+    }]
 });
 
 
