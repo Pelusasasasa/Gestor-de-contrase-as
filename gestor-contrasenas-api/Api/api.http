@@ -1,0 +1,12 @@
+### Cargar Un Payment
+POST http://localhost:3000/gestor/payment/
+Content-Type: application/json
+
+{
+    "userId": "67cc31088fae64eb1e3b3883",
+    "planId": "67cc31088fae64eb1e3b3883",
+    "amount": 20,
+    "paymentDate": 1235465,
+    "nextPaymentDate": 12364556,
+    "status": "active"
+}

@@ -24,4 +24,4 @@ const Plan = new Schema({
     }]
 });
 
-module.exports = Model('Plan', Plan);
+module.exports = model('Plan', Plan);

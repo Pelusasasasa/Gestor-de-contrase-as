@@ -22,6 +22,8 @@ app.use(express.json());
 //Rutas de la API
 app.use('/gestor/users', require('./routes/user.routes'));
 app.use('/gestor/passwords', require('./routes/password.routes'));
+app.use('/gestor/plan', require('./routes/plan.routes'));
+app.use('/gestor/payment', require('./routes/payment.routes'));
 
 //Servimos los archivos Estaticos(React)
 app.use(express.static('public'));
