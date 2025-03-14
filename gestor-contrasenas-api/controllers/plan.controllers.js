@@ -1,17 +1,21 @@
 const planCTRL = {};
 
 const Plan = require('../models/Plan');
+const { validatePlan, validarPartialPlan } = require('./schemas/planSchema');
 
 
 planCTRL.postPlan = async (req, res) => {
 
-    const { name, price, features } = req.body;
+    const result = await validatePlan(req.body);
+
+    if(!result.success) return res.status(500).json({
+        ok: false,
+        msg: JSON.parse(result.error)
+    });
 
     try {
 
-        const plan = new Plan({
-            name, price, features
-        });
+        const plan = new Plan(result.data);
 
         await plan.save();
 
@@ -33,16 +37,17 @@ planCTRL.postPlan = async (req, res) => {
 planCTRL.actualizar = async (req, res) => {
     const { id } = req.params;
 
-    const { name, price, feactures } = req.body;
+    const result = await validarPartialPlan(req.body);
+
+    if(!result.success) return res.status(400).json({
+        ok: false,
+        msg: JSON.parse(result.error)
+    })
 
     try {
-        const updateData = {}
-
-        if (name !== undefined) updateData.$set.name = name;
-        if (price !== undefined) updateData.$set.price = price;
-        if (features !== undefined) updateData.$set.features = features;
-
-        const updatePlan = await Plan.findOneAndUpdate(id, updateData, { new: true });
+        const updateData = result.data;
+        
+        const updatePlan = await Plan.findOneAndUpdate({_id: id}, updateData, { new: true });
 
         if (!updatePlan) return res.status(400).json({
             ok: false,

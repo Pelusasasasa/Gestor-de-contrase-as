@@ -7,8 +7,6 @@ const Payment = require('../models/Payment');
 paymentCTRL.postPayment = async (req, res) => {
     const result = await validatePayment(req.body);
 
-    console.log(result);
-
     if (!result.success) return res.status(500).json({
         ok: false,
         msg: JSON.parse(result.error)

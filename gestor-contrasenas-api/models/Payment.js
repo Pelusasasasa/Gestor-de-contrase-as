@@ -15,7 +15,7 @@ const Payment = new Schema({
         required: true
     },
     amount: {
-        Type: Number,
+        type: Number,
         required: true
     },
     paymentDate: {
