@@ -44,6 +44,10 @@ export const usePasswordsStore = () => {
     const startPutPassword = async (id, password) => {
         dispatch(onSaving());
 
+        const textoCifrado = CryptoJS.AES.encrypt(password.password, passwordKey).toString();
+
+        password.password = textoCifrado;
+
         const { data } = await gestorApi.put(`passwords/${id}`, password);
 
         dispatch(onPutPassowrd(data.updatePassword));
