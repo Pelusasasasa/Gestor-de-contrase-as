@@ -63,7 +63,7 @@ export const useAuthStore = () => {
     const checkAuthToken = async () => {
         const token = localStorage.getItem('token');
 
-        if (!token) return dispatch(onLogOut());
+        if (token == "undefined" || !token) return dispatch(onLogOut());
 
         try {
             const { data } = await gestorApi.post('users/renew', token);
