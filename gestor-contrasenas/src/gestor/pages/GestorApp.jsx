@@ -79,25 +79,29 @@ export const GestorApp = () => {
         <p className='text-gray-600'>Aqui estan tus contraseñas guardadas</p>
       </div>
 
-      <div onClick={handleAdd} className="fixed botom-8 right-8 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors cursor-pointer">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 4v16m8-8H4" />
-        </svg>
-      </div>
+      <div className="flex items-center gap-2 p-4">
 
-      {/* //buscador */}
-      <div>
-        <div className='max-w-2xl mx-auto mb-8'>
-          <input type="text" onChange={handlePassword} placeholder='Buscar por titulo o usuario' className='w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:otuline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500' />
+        {/* //buscador */}
+        <div className='flex-1'>
+          <input type="text" onChange={handlePassword} placeholder='Buscar por titulo o usuario'
+            className='w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:otuline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500' />
+        </div>
+
+
+        <div onClick={handleAdd}
+          className="botom-8 right-8 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 4v16m8-8H4" />
+          </svg>
         </div>
       </div>
 
       {/* Lista de contraseña */}
-      <div className='max-w-2xl mx-auto'>
+      <div className='mx-auto grid grid-cols-1 gap-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full'>
         {passwordFilter.map((item) => (
           <PasswordItem key={item._id} {...item} abrirVentana={setOpenModal} />
         ))}
