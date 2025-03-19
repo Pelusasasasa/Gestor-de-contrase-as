@@ -197,7 +197,7 @@ userCTRL.renew = async (req, res) => {
     const uid = req.uid;
     const password = req.password;
     console.log(uid)
-
+    console.log("a");
     let { username } = await User.findOne({ _id: uid });
 
     const token = await generarJTW(uid, password);
